@@ -1,25 +1,25 @@
 /**
- * HC-SR04 Demo
- * Demonstration of the HC-SR04 Ultrasonic Sensor
- * Date: August 3, 2016
- * 
- * Description:
- *  Connect the ultrasonic sensor to the Arduino as per the
- *  hardware connections below. Run the sketch and open a serial
- *  monitor. The distance read from the sensor will be displayed
- *  in centimeters and inches.
- * 
- * Hardware Connections:
- *  Arduino | HC-SR04 
- *  -------------------
- *    5V    |   VCC     
- *    7     |   Trig     
- *    6     |   Echo     
- *    GND   |   GND
- *  
- * License:
- *  Public Domain
- */
+   HC-SR04 Demo
+   Demonstration of the HC-SR04 Ultrasonic Sensor
+   Date: August 3, 2016
+
+   Description:
+    Connect the ultrasonic sensor to the Arduino as per the
+    hardware connections below. Run the sketch and open a serial
+    monitor. The distance read from the sensor will be displayed
+    in centimeters and inches.
+
+   Hardware Connections:
+    Arduino | HC-SR04
+    -------------------
+      5V    |   VCC
+      7     |   Trig
+      6     |   Echo
+      GND   |   GND
+
+   License:
+    Public Domain
+*/
 
 // Pins
 const int TRIG_PIN = 7;
@@ -77,7 +77,7 @@ void loop() {
   pulse_width = t2 - t1;
 
   // Calculate distance in centimeters and inches. The constants
-  // are found in the datasheet, and calculated from the assumed speed 
+  // are found in the datasheet, and calculated from the assumed speed
   //of sound in air at sea level (~340 m/s).
   cm = pulse_width / 58.0;
   mm = int(pulse_width / 5.8);
@@ -93,15 +93,16 @@ void loop() {
     Serial.println(" in");
   }
 
- 
+
   char tempString[10]; //Used for sprintf
+  mm = constrain(mm,0,9999);
   sprintf(tempString, "%4d", mm); //Convert deciSecond into a string that is right adjusted
- 
+  Serial.println(tempString);
 
   Serial7Segment.print(tempString); //Send serial string out the soft serial port to the S7S
 
 
-  
+
   // Wait at least 60ms before next measurement
-  delay(60);
+  delay(10);
 }
