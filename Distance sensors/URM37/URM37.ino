@@ -25,9 +25,6 @@ void loop() {
   else {
     Distance = DistanceMeasured / 50; // every 50us low level stands for 1cm
   }
-  Serial.print("Distance=");
-  Serial.print(Distance);
-  Serial.println("mm");
 
   lcd.setCursor(0, 0);
   lcd.print("Distance = ");
