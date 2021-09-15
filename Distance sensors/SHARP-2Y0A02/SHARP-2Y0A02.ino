@@ -34,16 +34,53 @@
 //The sensor output pin is attached to the pin A0
 SharpIR sensor( SharpIR::GP2Y0A02YK0F, A5);
 
+
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+// Declaration for SSD1306 display connected using software SPI (default case):
+#define OLED_MOSI   9
+#define OLED_CLK   10
+#define OLED_DC    11
+#define OLED_CS    12
+#define OLED_RESET 13
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
+                         OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
+
+
 void setup()
 {
   Serial.begin( 9600 ); //Enable the serial comunication
+  if (!display.begin(SSD1306_SWITCHCAPVCC)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;); // Don't proceed, loop forever
+  }
+  display.display();
+ // delay(2000); // Pause for 2 seconds
+
+  // Clear the buffer
+  display.clearDisplay();
+  display.setTextSize(2);
+
+  display.setTextColor(SSD1306_WHITE);
 
 }
 
 void loop()
 {
-  int the = sensor.getDistance(); //Calculate the distance in centimeters and store the value in a variable
+  int distance = sensor.getDistance(); //Calculate the distance in centimeters and store the value in a variable
 
-  Serial.println( the ); //Print the value to the serial monitor
- // Serial.println(analogRead(A0));
+  Serial.println( distance ); //Print the value to the serial monitor
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.println("Distance = ");
+  display.print(distance);
+  display.println(" CM");
+  display.display();
+  // Serial.println(analogRead(A0));
 }
