@@ -32,7 +32,7 @@
 //Call the sensor "sensor"
 //The model of the sensor is "GP2YA41SK0F"
 //The sensor output pin is attached to the pin A0
-SharpIR sensor( SharpIR::GP2Y0A02YK0F, A5);
+SharpIR sensor( SharpIR::GP2Y0A02YK0F, A0);
 
 
 #include <SPI.h>
@@ -44,19 +44,14 @@ SharpIR sensor( SharpIR::GP2Y0A02YK0F, A5);
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
 // Declaration for SSD1306 display connected using software SPI (default case):
-#define OLED_MOSI   9
-#define OLED_CLK   10
-#define OLED_DC    11
-#define OLED_CS    12
-#define OLED_RESET 13
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
-                         OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
-
+#define OLED_RESET     4 // Reset pin # (or -1 if sharing Arduino reset pin)
+#define SCREEN_ADDRESS 0x3D ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup()
 {
   Serial.begin( 9600 ); //Enable the serial comunication
-  if (!display.begin(SSD1306_SWITCHCAPVCC)) {
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
     for (;;); // Don't proceed, loop forever
   }

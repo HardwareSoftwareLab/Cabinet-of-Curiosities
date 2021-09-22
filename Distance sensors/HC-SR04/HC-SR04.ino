@@ -1,8 +1,8 @@
 #include <SoftwareSerial.h>
 SoftwareSerial Serial7Segment(9, 8); //RX pin, TX pin
 
-const int TRIG_PIN = 7;
-const int ECHO_PIN = 6;
+const int TRIG_PIN = 6;
+const int ECHO_PIN = 7;
 const unsigned int MAX_DIST = 23200;
 
 unsigned long t1;
